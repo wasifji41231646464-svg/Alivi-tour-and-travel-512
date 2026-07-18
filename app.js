@@ -60,15 +60,15 @@ async function loadNotices(targetId) {
 
 /* ================= Packages (public read) ================= */
 const FALLBACK_PACKAGES = [
+  { title: 'Hajj Package', category: 'hajj', price: 'Rabta karein / Contact us', duration: '30-40 Din / Days',
+    desc: 'Mukammal Hajj package, tajurbekar guides ke sath.',
+    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Green_dome,_Masjid_e_Nabawi,_Medina,_KSA.jpg' },
   { title: 'Umrah — Economy', category: 'umrah', price: 'PKR 1,80,000', duration: '10 Din / 10 Days',
     desc: 'Sharing accommodation, direct flights, visa aur ziyarat included.',
     img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Kaaba_111.jpg' },
   { title: 'Umrah — VIP Deluxe', category: 'umrah', price: 'PKR 3,50,000', duration: '14 Din / 14 Days',
     desc: '5-star hotels, Haram ke qareeb rehaish, private transport.',
     img: 'https://commons.wikimedia.org/wiki/Special:FilePath/The_Ka%27ba,_Great_Mosque_of_Mecca,_Saudi_Arabia_(4).jpg' },
-  { title: 'Hajj Package', category: 'hajj', price: 'Rabta karein / Contact us', duration: '30-40 Din / Days',
-    desc: 'Mukammal Hajj package, tajurbekar guides ke sath.',
-    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Green_dome,_Masjid_e_Nabawi,_Medina,_KSA.jpg' },
   { title: 'Ziyarat-e-Iraq', category: 'iraq', price: 'PKR 2,20,000', duration: '8 Din / 8 Days',
     desc: 'Karbala, Najaf, Kazmain aur Samarra ki ziyarat.',
     img: 'https://commons.wikimedia.org/wiki/Special:FilePath/The_shrine_of_Imam_Hussain_in_Karbala.jpg' },
@@ -81,7 +81,7 @@ const FALLBACK_PACKAGES = [
 ];
 
 function pkgCardHTML(p) {
-  const label = { umrah: 'Umrah', hajj: 'Hajj', iran: 'Ziyarat • Iran', iraq: 'Ziyarat • Iraq' }[p.category] || p.category;
+  const label = { hajj: 'Hajj', umrah: 'Umrah', iran: 'Ziyarat • Iran', iraq: 'Ziyarat • Iraq' }[p.category] || p.category;
   return `
     <div class="pkg-card" data-cat="${p.category}">
       <div class="pkg-img">
