@@ -1,4 +1,4 @@
-/* ================= Shared site behaviour ================= */
+/* ================= Shared site behaviour (Supabase backend) ================= */
 
 // Mobile nav toggle
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,7 +24,7 @@ function showToast(msg) {
 
 function timeAgo(ts) {
   if (!ts) return '';
-  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  const d = new Date(ts);
   return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
@@ -33,27 +33,27 @@ async function loadNotices(targetId) {
   const el = document.getElementById(targetId);
   if (!el || typeof db === 'undefined') return;
   try {
-    const snap = await db.collection('notices').orderBy('createdAt', 'desc').limit(6).get();
-    if (snap.empty) {
+    const { data, error } = await db.from('notices').select('*').order('created_at', { ascending: false }).limit(6);
+    if (error) throw error;
+    if (!data || data.length === 0) {
       el.innerHTML = '<div class="notice-empty">Filhaal koi notice nahi hai — Currently no announcements.</div>';
       return;
     }
     el.innerHTML = '';
-    snap.forEach(doc => {
-      const n = doc.data();
+    data.forEach(n => {
       const item = document.createElement('div');
       item.className = 'notice';
       item.innerHTML = `
-        ${n.imageUrl ? `<img src="${n.imageUrl}" alt="">` : ''}
+        ${n.image_url ? `<img src="${n.image_url}" alt="">` : ''}
         <div class="txt">
-          <time>${timeAgo(n.createdAt)}</time>
+          <time>${timeAgo(n.created_at)}</time>
           <h4>${n.title || ''}</h4>
           <p>${n.message || ''}</p>
         </div>`;
       el.appendChild(item);
     });
   } catch (e) {
-    el.innerHTML = '<div class="notice-empty">Notice board load nahi ho saka. Firebase config check karein.</div>';
+    el.innerHTML = '<div class="notice-empty">Notice board load nahi ho saka. Supabase config check karein.</div>';
     console.error(e);
   }
 }
@@ -85,7 +85,7 @@ function pkgCardHTML(p) {
   return `
     <div class="pkg-card" data-cat="${p.category}">
       <div class="pkg-img">
-        <img src="${p.img || p.imageUrl || ''}" alt="${p.title}">
+        <img src="${p.img || p.image_url || ''}" alt="${p.title}">
         <span class="pkg-badge">${label}</span>
       </div>
       <div class="pkg-body">
@@ -106,11 +106,9 @@ async function loadPackages(targetId) {
   let list = FALLBACK_PACKAGES;
   if (typeof db !== 'undefined') {
     try {
-      const snap = await db.collection('packages').where('active', '==', true).get();
-      if (!snap.empty) {
-        list = [];
-        snap.forEach(doc => list.push(doc.data()));
-      }
+      const { data, error } = await db.from('packages').select('*').eq('active', true);
+      if (error) throw error;
+      if (data && data.length > 0) list = data;
     } catch (e) { console.warn('Using fallback packages —', e.message); }
   }
   el.innerHTML = list.map(pkgCardHTML).join('');
@@ -138,18 +136,17 @@ function initBookingForm() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('button[type="submit"]');
-    const data = {
+    const record = {
       name: form.name.value.trim(),
       phone: form.phone.value.trim(),
       email: form.email.value.trim(),
-      packageType: form.packageType.value,
-      travelers: form.travelers.value,
+      package_type: form.packageType.value,
+      travelers: parseInt(form.travelers.value) || 1,
       message: form.message.value.trim(),
-      status: 'pending',
-      createdAt: (typeof firebase !== 'undefined') ? firebase.firestore.FieldValue.serverTimestamp() : new Date()
+      status: 'pending'
     };
 
-    if (!data.name || !data.phone) {
+    if (!record.name || !record.phone) {
       msgBox.className = 'form-msg err';
       msgBox.textContent = 'Naam aur phone number zaroori hai — Name and phone are required.';
       return;
@@ -160,14 +157,15 @@ function initBookingForm() {
 
     try {
       if (typeof db === 'undefined') throw new Error('no-db');
-      await db.collection('bookings').add(data);
+      const { error } = await db.from('bookings').insert([record]);
+      if (error) throw error;
       msgBox.className = 'form-msg ok';
       msgBox.textContent = 'Shukriya! Aapki request mil gayi hai. Admin approve karne ke baad hum aap se rabta karenge. — Thank you, we will contact you soon.';
       form.reset();
     } catch (err) {
       console.error(err);
       msgBox.className = 'form-msg err';
-      msgBox.textContent = 'Form abhi save nahi ho saka. Firebase config set hui hai ya nahi check karein, ya WhatsApp/call kar dein.';
+      msgBox.textContent = 'Form abhi save nahi ho saka. Supabase config set hui hai ya nahi check karein, ya WhatsApp/call kar dein.';
     } finally {
       btn.disabled = false;
       btn.textContent = 'Submit Request';

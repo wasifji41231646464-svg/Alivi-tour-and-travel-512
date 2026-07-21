@@ -1,27 +1,27 @@
 /* ============================================================
-   ALVI TOURS & TRAVELS — "Night Journey" theme
-   Ink Night (#12203A) + Desert Gold (#C9A24B) + Ziyarat Teal (#0E4245)
-   + warm Sand base (#F7F2E7) + Maroon accent (#6E1E2B)
+   ALVI TOURS & TRAVELS — "Sacred Journey" theme
+   Pine Green (#0E3D2E) + Warm Gold (#D9A94E) + Ziyarat Teal (#1B6B5D)
+   + Mint Sand base (#F3FBF7) + Coral accent (#B23A2E)
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap');
 
 :root{
-  --ink:#12203A;
-  --ink-2:#1B2E52;
-  --gold:#C9A24B;
-  --gold-light:#E4C878;
-  --teal:#0E4245;
-  --teal-2:#155A5E;
-  --sand:#F7F2E7;
-  --sand-2:#EFE6D3;
-  --maroon:#6E1E2B;
-  --ink-text:#1C1A16;
-  --muted:#5B5648;
+  --ink:#0E3D2E;
+  --ink-2:#145240;
+  --gold:#D9A94E;
+  --gold-light:#EFC97D;
+  --teal:#1B6B5D;
+  --teal-2:#227D6D;
+  --sand:#F3FBF7;
+  --sand-2:#E3F3EC;
+  --maroon:#B23A2E;
+  --ink-text:#14261D;
+  --muted:#5B6B62;
   --white:#FFFFFF;
   --radius:14px;
-  --shadow:0 10px 30px rgba(18,32,58,.18);
-  --shadow-lg:0 20px 60px rgba(18,32,58,.28);
+  --shadow:0 10px 30px rgba(14,61,46,.16);
+  --shadow-lg:0 20px 60px rgba(14,61,46,.26);
 }
 
 *{box-sizing:border-box;}
@@ -81,9 +81,9 @@ section{padding:88px 0;}
 /* ---------- Nav ---------- */
 header{
   position:sticky;top:0;z-index:50;
-  background:rgba(18,32,58,.92);
+  background:rgba(14,61,46,.92);
   backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(201,162,75,.25);
+  border-bottom:1px solid rgba(217,169,78,.25);
 }
 .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:1180px;margin:0 auto;}
 .brand{display:flex;align-items:center;gap:10px;color:var(--sand);}
@@ -95,14 +95,14 @@ header{
   color:var(--sand-2);font-size:.92rem;padding:9px 16px;border-radius:999px;
   transition:.2s;font-weight:500;
 }
-.navlinks a:hover,.navlinks a.active{background:rgba(201,162,75,.16);color:var(--gold-light);}
+.navlinks a:hover,.navlinks a.active{background:rgba(217,169,78,.16);color:var(--gold-light);}
 .navtoggle{display:none;background:none;border:0;color:var(--sand);font-size:1.5rem;cursor:pointer;}
 
 @media(max-width:820px){
   .navlinks{
     position:absolute;top:100%;left:0;right:0;flex-direction:column;
     background:var(--ink);padding:10px 20px 20px;gap:2px;
-    border-bottom:1px solid rgba(201,162,75,.25);
+    border-bottom:1px solid rgba(217,169,78,.25);
     display:none;
   }
   .navlinks.open{display:flex;}
@@ -117,7 +117,7 @@ header{
 }
 .btn-gold{background:var(--gold);color:var(--ink);}
 .btn-gold:hover{background:var(--gold-light);transform:translateY(-1px);}
-.btn-outline{border-color:rgba(247,242,231,.4);color:var(--sand);}
+.btn-outline{border-color:rgba(243,251,247,.4);color:var(--sand);}
 .btn-outline:hover{border-color:var(--gold);color:var(--gold-light);}
 .btn-teal{background:var(--teal);color:var(--sand);}
 .btn-teal:hover{background:var(--teal-2);}
@@ -129,7 +129,7 @@ header{
 /* ---------- Hero ---------- */
 .hero{
   position:relative;min-height:92vh;display:flex;align-items:center;
-  background:linear-gradient(180deg,rgba(18,32,58,.55),rgba(18,32,58,.86)),
+  background:linear-gradient(180deg,rgba(14,61,46,.55),rgba(14,61,46,.86)),
     url('https://commons.wikimedia.org/wiki/Special:FilePath/The_Ka%27ba,_Great_Mosque_of_Mecca,_Saudi_Arabia_(4).jpg') center/cover no-repeat;
   color:var(--sand);
 }
@@ -147,7 +147,7 @@ header{
 .hero-scroll .stick{width:1px;height:36px;background:linear-gradient(var(--gold),transparent);}
 
 /* ---------- Trust strip ---------- */
-.trust{background:var(--ink);color:var(--sand-2);padding:26px 0;border-top:1px solid rgba(201,162,75,.2);}
+.trust{background:var(--ink);color:var(--sand-2);padding:26px 0;border-top:1px solid rgba(217,169,78,.2);}
 .trust .container{display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between;}
 .trust-item{display:flex;align-items:center;gap:10px;font-size:.88rem;}
 .trust-item b{color:var(--gold-light);}
@@ -168,7 +168,7 @@ header{
 .gallery a:hover img{transform:scale(1.06);}
 .gallery .cap{
   position:absolute;left:0;right:0;bottom:0;padding:14px 16px;
-  background:linear-gradient(0deg,rgba(18,32,58,.85),transparent);
+  background:linear-gradient(0deg,rgba(14,61,46,.85),transparent);
   color:var(--sand);font-size:.85rem;font-weight:600;
 }
 @media(max-width:760px){
@@ -180,13 +180,13 @@ header{
 .ziyarat{background:var(--teal);color:var(--sand);}
 .ziyarat .eyebrow{color:var(--gold-light);}
 .ziyarat .sec-head h2{color:var(--white);}
-.ziyarat .sec-head p{color:rgba(247,242,231,.75);}
+.ziyarat .sec-head p{color:rgba(243,251,247,.75);}
 .ziy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-.ziy-card{background:rgba(247,242,231,.06);border:1px solid rgba(201,162,75,.25);border-radius:var(--radius);overflow:hidden;}
+.ziy-card{background:rgba(243,251,247,.06);border:1px solid rgba(217,169,78,.25);border-radius:var(--radius);overflow:hidden;}
 .ziy-card img{height:200px;width:100%;object-fit:cover;}
 .ziy-card .body{padding:20px;}
 .ziy-card h3{color:var(--gold-light);font-size:1.2rem;}
-.ziy-card p{color:rgba(247,242,231,.78);font-size:.92rem;margin:0;}
+.ziy-card p{color:rgba(243,251,247,.78);font-size:.92rem;margin:0;}
 @media(max-width:760px){.ziy-grid{grid-template-columns:1fr;}}
 
 /* ---------- Quote / reference cards ---------- */
@@ -228,14 +228,14 @@ header{
 footer{background:var(--ink);color:var(--sand-2);padding:60px 0 24px;}
 .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;margin-bottom:40px;}
 .foot-grid h4{color:var(--gold-light);font-family:'Inter';font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;}
-.foot-grid p, .foot-grid a{color:rgba(247,242,231,.7);font-size:.92rem;display:block;margin-bottom:8px;}
+.foot-grid p, .foot-grid a{color:rgba(243,251,247,.7);font-size:.92rem;display:block;margin-bottom:8px;}
 .foot-grid a:hover{color:var(--gold-light);}
-.foot-bottom{border-top:1px solid rgba(201,162,75,.2);padding-top:20px;text-align:center;font-size:.8rem;color:rgba(247,242,231,.5);}
+.foot-bottom{border-top:1px solid rgba(217,169,78,.2);padding-top:20px;text-align:center;font-size:.8rem;color:rgba(243,251,247,.5);}
 @media(max-width:820px){.foot-grid{grid-template-columns:1fr;}}
 
 /* ---------- Packages page ---------- */
 .pkg-hero{
-  background:linear-gradient(180deg,rgba(18,32,58,.75),rgba(18,32,58,.92)),
+  background:linear-gradient(180deg,rgba(14,61,46,.75),rgba(14,61,46,.92)),
     url('https://commons.wikimedia.org/wiki/Special:FilePath/Green_dome,_Masjid_e_Nabawi,_Medina,_KSA.jpg') center/cover;
   color:var(--sand);padding:150px 0 70px;text-align:center;
 }
@@ -289,11 +289,11 @@ footer{background:var(--ink);color:var(--sand-2);padding:60px 0 24px;}
 
 .info-card{background:var(--ink);color:var(--sand);border-radius:var(--radius);padding:36px;margin-bottom:20px;}
 .info-card h3{color:var(--white);}
-.info-row{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(201,162,75,.18);}
+.info-row{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(217,169,78,.18);}
 .info-row:last-child{border:0;}
 .info-row .ic{color:var(--gold);font-size:1.1rem;flex-shrink:0;}
 .info-row b{display:block;font-size:.78rem;color:var(--gold-light);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
-.info-row span,.info-row a{color:rgba(247,242,231,.85);font-size:.92rem;}
+.info-row span,.info-row a{color:rgba(243,251,247,.85);font-size:.92rem;}
 .map-embed{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--sand-2);}
 .map-embed iframe{width:100%;height:260px;border:0;display:block;}
 @media(max-width:900px){.contact-wrap{grid-template-columns:1fr;}}
@@ -333,5 +333,5 @@ footer{background:var(--ink);color:var(--sand-2);padding:60px 0 24px;}
 .toast.show{display:block;animation:fadeUp .25s ease;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
-.spin{width:22px;height:22px;border:2.5px solid rgba(18,32,58,.15);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite;}
+.spin{width:22px;height:22px;border:2.5px solid rgba(14,61,46,.15);border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite;}
 @keyframes sp{to{transform:rotate(360deg);}}
