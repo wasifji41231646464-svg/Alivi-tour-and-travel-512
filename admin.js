@@ -115,15 +115,80 @@ async function setStatus(id, status) {
   loadHistory();
 }
 
-/* ================= History ================= */
+/* ================= History (grouped by package) ================= */
+const PKG_LABELS = { hajj: 'Hajj', umrah: 'Umrah', iraq: 'Ziyarat — Iraq', iran: 'Ziyarat — Iran' };
+
 async function loadHistory() {
   const el = document.getElementById('historyList');
   el.innerHTML = '<div class="empty-state"><div class="spin" style="margin:0 auto"></div></div>';
-  const { data, error } = await db.from('bookings').select('*').in('status', ['approved', 'rejected']).order('updated_at', { ascending: false }).limit(100);
+  const { data, error } = await db.from('bookings').select('*').in('status', ['approved', 'rejected']).order('updated_at', { ascending: false });
   if (error) { el.innerHTML = `<div class="empty-state">Load nahi ho saka: ${error.message}</div>`; return; }
   if (!data || data.length === 0) { el.innerHTML = '<div class="empty-state">Abhi tak koi history nahi hai.</div>'; return; }
+
   el.innerHTML = '';
-  data.forEach(b => el.appendChild(bookingCard(b, false)));
+
+  // Approved bookings — grouped by package
+  const approved = data.filter(b => b.status === 'approved');
+  const rejected = data.filter(b => b.status === 'rejected');
+
+  if (approved.length > 0) {
+    const groups = {};
+    approved.forEach(b => {
+      const key = b.package_type || 'Other';
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(b);
+    });
+
+    Object.keys(groups).sort().forEach(key => {
+      const label = PKG_LABELS[key] || key;
+      const section = document.createElement('div');
+      section.style.marginBottom = '30px';
+      section.innerHTML = `<h4 style="border-bottom:2px solid var(--gold);padding-bottom:8px;margin-bottom:14px;">${label} <span style="color:var(--muted);font-weight:400;font-size:.85rem;">(${groups[key].length} musafir)</span></h4>`;
+      const list = document.createElement('div');
+      groups[key].forEach(b => list.appendChild(approvedCard(b)));
+      section.appendChild(list);
+      el.appendChild(section);
+    });
+  }
+
+  // Rejected bookings — plain list at the bottom
+  if (rejected.length > 0) {
+    const section = document.createElement('div');
+    section.innerHTML = `<h4 style="border-bottom:2px solid var(--maroon);padding-bottom:8px;margin-bottom:14px;">Rejected <span style="color:var(--muted);font-weight:400;font-size:.85rem;">(${rejected.length})</span></h4>`;
+    const list = document.createElement('div');
+    rejected.forEach(b => list.appendChild(bookingCard(b, false)));
+    section.appendChild(list);
+    el.appendChild(section);
+  }
+}
+
+function approvedCard(b) {
+  const card = document.createElement('div');
+  card.className = 'card-row';
+  card.innerHTML = `
+    <div class="top">
+      <h4 style="margin:0;">${b.name || 'Unnamed'}</h4>
+      <span class="status-pill status-approved">approved</span>
+    </div>
+    <div class="detail-grid">
+      <div><b>Phone</b>${b.phone || '—'}</div>
+      <div><b>Email</b>${b.email || '—'}</div>
+      <div><b>Travelers</b>${b.travelers || '—'}</div>
+      <div><b>Approved</b>${fmt(b.updated_at)}</div>
+    </div>
+    ${b.message ? `<p style="color:var(--muted);font-size:.88rem;margin:0 0 10px;">"${b.message}"</p>` : ''}
+    <div class="field" style="margin-bottom:8px;">
+      <label>Extra Details <span style="font-weight:400;color:var(--muted);">— CNIC, passport, payment status, koi bhi note</span></label>
+      <textarea rows="2" data-details-for="${b.id}" placeholder="Jaise: CNIC 35202-xxxxxxx-x, Advance payment PKR 50,000 mil chuki hai...">${b.extra_details || ''}</textarea>
+    </div>
+    <button class="btn btn-teal btn-sm" data-act="save-details">Save Details</button>
+  `;
+  card.querySelector('[data-act="save-details"]').addEventListener('click', async () => {
+    const val = card.querySelector(`[data-details-for="${b.id}"]`).value;
+    const { error } = await db.from('bookings').update({ extra_details: val }).eq('id', b.id);
+    showToast(error ? 'Error: ' + error.message : 'Details save ho gayi.');
+  });
+  return card;
 }
 
 /* ================= Packages management ================= */
