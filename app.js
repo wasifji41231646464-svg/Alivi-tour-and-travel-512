@@ -165,7 +165,7 @@ function initBookingForm() {
     } catch (err) {
       console.error(err);
       msgBox.className = 'form-msg err';
-      msgBox.textContent = 'Form abhi save nahi ho saka. Supabase config set hui hai ya nahi check karein, ya WhatsApp/call kar dein.';
+      msgBox.textContent = 'Form save nahi ho saka. Error: ' + (err.message || JSON.stringify(err));
     } finally {
       btn.disabled = false;
       btn.textContent = 'Submit Request';
